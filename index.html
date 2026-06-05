@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mariah Demo</title>
+
+<style>
+body{
+margin:0;
+background:black;
+color:white;
+text-align:center;
+font-family:Arial;
+}
+
+canvas{
+background:#222;
+touch-action:none;
+border:1px solid white;
+}
+
+.skills{
+position:fixed;
+bottom:20px;
+width:100%;
+}
+
+button{
+width:70px;
+height:70px;
+border-radius:50%;
+font-size:20px;
+margin:5px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>Mariah Demo</h2>
+
+<canvas id="game"
+width="400"
+height="500"></canvas>
+
+<div class="skills">
+
+<button onclick="skillQ()">Q</button>
+
+<button onclick="skillW()">W</button>
+
+<button onclick="skillE()">E</button>
+
+</div>
+
+<script>
+
+const c=
+document.getElementById("game");
+
+const ctx=
+c.getContext("2d");
+
+let p={
+x:100,
+y:250,
+hp:100
+};
+
+let enemy={
+x:280,
+y:250,
+hp:100
+};
+
+c.addEventListener(
+"touchstart",
+(e)=>{
+
+let r=
+c.getBoundingClientRect();
+
+p.x=
+e.touches[0].clientX-r.left;
+
+p.y=
+e.touches[0].clientY-r.top;
+
+}
+);
+
+function distance(){
+
+return Math.hypot(
+p.x-enemy.x,
+p.y-enemy.y
+);
+
+}
+
+function skillQ(){
+
+if(distance()<100){
+
+enemy.hp-=20;
+
+p.hp=
+Math.min(
+100,
+p.hp+10
+);
+
+}
+
+}
+
+function skillW(){
+
+p.x+=70;
+
+}
+
+function skillE(){
+
+if(distance()<150){
+
+enemy.hp-=35;
+
+}
+
+}
+
+function draw(){
+
+ctx.clearRect(
+0,
+0,
+400,
+500
+);
+
+ctx.fillStyle=
+"gray";
+
+ctx.fillRect(
+0,
+180,
+400,
+320
+);
+
+ctx.fillStyle=
+"blue";
+
+ctx.fillRect(
+p.x,
+p.y,
+40,
+40
+);
+
+ctx.fillStyle=
+"red";
+
+ctx.fillRect(
+enemy.x,
+enemy.y,
+40,
+40
+);
+
+ctx.fillStyle=
+"white";
+
+ctx.fillText(
+"Mariah HP:"+p.hp,
+10,
+20
+);
+
+ctx.fillText(
+"Enemy:"+enemy.hp,
+260,
+20
+);
+
+if(enemy.hp<=0){
+
+ctx.fillText(
+"Bạn thắng!",
+160,
+60
+);
+
+}
+
+requestAnimationFrame(
+draw
+);
+
+}
+
+draw();
+
+</script>
+
+</body>
+</html>
